@@ -20,6 +20,13 @@ docker-compose up
 
 После этого контейнеры Docker будут созданы и запущены. Django приложение будет доступно на порту 8000, а Adminer будет доступен на порту 8080. Для остановки контейнеров нужно выполнить команду:
 
+Если запускать проект с 0, то папки с джанго не будет, но после не удачной попытки `docker-compose up` нужно выполнить:
+
+```
+docker-compose run web django-admin startproject myproject .
+```
+
+Завершить проект:
 ```
 docker-compose down
 ```
@@ -49,8 +56,7 @@ Adminer: http://127.0.0.1:8080
 ```
 docker-compose build
 ```
-
-`settings.py`:
+Если проект запускаля с 0, нужно изменить `settings.py`:
 ```
 import os
 ...
@@ -68,6 +74,9 @@ DATABASES = {
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 ```
+Здесь мы добавили модуль `os`, настроили работу с `postgresql`, указали директории со статикой.
+
+После этого можно делать миграцию, создавать суперпользователя и собирать статику.
 
 ## Дополнительные команды
 
@@ -86,14 +95,14 @@ docker-compose run --rm web python manage.py createsuperuser
 Для сбора статических файлов Django необходимо запустить контейнер в интерактивном режиме и выполнить команду `python manage.py collectstatic`:
 
 ```
-docker-compose run --rm web python
+docker-compose run --rm web python manage.py collectstatic
 ```
 
 ## Доступы
 
 DJ:
 ```
-		'USER': 'djadmin',
+	    'USER': 'djadmin',
         'PASSWORD': 'djadmin'
 ```
 
@@ -104,3 +113,57 @@ ADMINER:
         'PASSWORD': 'mypassword',
         'HOST': 'db',
 ```
+
+---
+
+## Продолжение
+
+Создадим django приложение `myapp1`:
+```
+docker-compose run --rm web python manage.py startapp myapp1
+```
+
+Добавим приложение в `myapp/myproject/settings.py`:
+```
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    "myapp1",
+]
+```
+Создадим `myapp/templates/index.html`
+
+Далее нужно зарегистрировать путь в `myapp/myproject/settings.py`:
+```
+TEMPLATES = [
+    {
+        ...
+        "DIRS": ['templates'],
+        ...
+```
+
+Добавим вид во `myapp/myapp1/views.py`:
+```
+def index_page(request):
+    return render(request, "index.html")
+```
+
+Добавим в `myapp/myproject/urls.py`:
+```
+from django.contrib import admin
+from django.urls import path
+from myapp1.views import index_page # добавим view из нашего myapp1
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path("", index_page), # путь к главной страницу ( index )
+]
+```
+
+Теперь если зайти на http://127.0.0.1:8000/ мы увидем:
+
+![](readme_content/dj_docker_img1.PNG)
