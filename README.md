@@ -1,3 +1,4 @@
+![](readme_content/dj_docker_title_img.png)
 # Проект "DJ DOCKER"
 
 Проект "DJ DOCKER" — это простое Django приложение, которое запускается в контейнерах Docker. В приложении используется база данных PostgreSQL, а также административный интерфейс Adminer для управления базой данных.
@@ -9,8 +10,6 @@
 ```bash
 git clone https://github.com/AX2048/DJ_DOCKER.git
 ```
-
-
 
 Затем нужно перейти в директорию с проектом и запустить команду:
 
@@ -96,6 +95,15 @@ docker-compose run --rm web python manage.py createsuperuser
 
 ```
 docker-compose run --rm web python manage.py collectstatic
+```
+
+Посмотреть в pip list:
+```
+docker-compose run web pip list
+```
+Сохранение логов в файл:
+```
+docker-compose logs -f -t >> myDockerCompose.log
 ```
 
 ## Доступы
