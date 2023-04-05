@@ -1,1 +1,22 @@
-Hello world from Django!
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>DJ DOCKER</title> 
+</head>
+
+<body> 
+    <h1>DJ DOCKER</h1> 
+    <br>
+    {% if data %}
+    <ul>
+    {% for d in data %}
+        <li>| ID :: {{d.id}} | <a>{{d.link}} :::: {{d.title}}</a> | count :: {{forloop.counter}} |</li>
+    {% endfor %}
+    </ul>
+    {% else %}
+    <p><b style="color:red;">No data</b></p>
+    {% endif %}
+</body>
+</html>

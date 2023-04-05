@@ -82,6 +82,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 Для выполнения миграций базы данных необходимо запустить контейнер в интерактивном режиме и выполнить команду `python manage.py migrate`:
 
 ```
+docker-compose run --rm web python manage.py makemigrations
 docker-compose run --rm web python manage.py migrate
 ```
 
@@ -104,6 +105,11 @@ docker-compose run web pip list
 Сохранение логов в файл:
 ```
 docker-compose logs -f -t >> myDockerCompose.log
+```
+
+Проверить версию `postgres`:
+```
+docker-compose run --rm db postgres -V
 ```
 
 ## Доступы
