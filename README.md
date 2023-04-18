@@ -1,7 +1,7 @@
 ![](readme_content/dj_docker_title_img.png)
 # Проект "DJ DOCKER"
 
-Проект "DJ DOCKER" — это простое Django приложение, которое запускается в контейнерах Docker. В приложении используется база данных PostgreSQL, а также административный интерфейс Adminer для управления базой данных.
+DJ DOCKER — это простое Django приложение, которое запускается в контейнерах Docker. В приложении используется база данных PostgreSQL, а также административный интерфейс Adminer для управления базой данных.
 
 ## Запуск проекта
 
@@ -16,6 +16,8 @@ git clone https://github.com/AX2048/DJ_DOCKER.git
 ```bash
 docker-compose up
 ```
+
+*PS: Больше про docker compose зедсь (PYTHON + POSTGRE + ADMINER + NGINX + CERTBOT): https://github.com/AX2048/DOCKER_COMPOSE_WAY*
 
 После этого контейнеры Docker будут созданы и запущены. Django приложение будет доступно на порту 8000, а Adminer будет доступен на порту 8080. Для остановки контейнеров нужно выполнить команду:
 
@@ -116,16 +118,16 @@ docker-compose run --rm db postgres -V
 
 DJ:
 ```
-	    'USER': 'djadmin',
-        'PASSWORD': 'djadmin'
+    'USER': 'djadmin',
+    'PASSWORD': 'djadmin'
 ```
 
 ADMINER:
 ```
-        'NAME': 'mydb',
-        'USER': 'myuser',
-        'PASSWORD': 'mypassword',
-        'HOST': 'db',
+    'NAME': 'mydb',
+    'USER': 'myuser',
+    'PASSWORD': 'mypassword',
+    'HOST': 'db',
 ```
 
 ---
@@ -178,6 +180,6 @@ urlpatterns = [
 ]
 ```
 
-Теперь если зайти на http://127.0.0.1:8000/ мы увидем:
+Теперь если зайти на http://127.0.0.1:8000/ мы увидим:
 
 ![](readme_content/dj_docker_img1.PNG)
